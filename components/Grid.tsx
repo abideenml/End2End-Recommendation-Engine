@@ -19,7 +19,7 @@ function Grid({ userID,title, movies }: Props) {
         <div
           className="flex items-center space-x-1 md:space-x-2.5 md:p-2"
         >
-          {movies.map((movie) => (
+          {movies?.map((movie) => (
             // <Mylist key={movie.id} movie={movie} />
             <ActionAreaCard key={movie.id} userID={userID} movie={movie} />
           ))}
