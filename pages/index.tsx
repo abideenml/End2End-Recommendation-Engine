@@ -65,9 +65,10 @@ const Home = ({
 
       <Header/>
 
-      {/* <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16 ">
+       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16 ">
         <Banner netflixOriginals={netflixOriginals} />
-
+        </main>
+        {/*
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
           <Row title="Top Rated" movies={topRated} />
@@ -80,7 +81,7 @@ const Home = ({
           <Row title="New & Popular" movies={romanceMovies}/>
           <Row title="Documentaries" movies={documentaries} />
         </section>
-      </main>
+      
       {showModal && <Modal />} */}
     </div>
   )
