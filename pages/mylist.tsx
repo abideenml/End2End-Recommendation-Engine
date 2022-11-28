@@ -5,15 +5,19 @@ import Grid from '../components/Grid'
 import { Movie } from '../typings'
 import requests from '../utils/requests'
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { useRecoilState,useRecoilValue } from 'recoil'
+import {userIdState} from '../atoms/modalAtom.'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+
 interface Props {
     firstdata: Movie[],
     seconddata: Movie[]
   }
   
   const MyList = ({firstdata,seconddata}: Props) => {
-    const router = useRouter()
+    const [userId, setUserId] = useRecoilState(userIdState);
+    const router = useRouter() 
     return (
       <div
         className={`relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh] ${'!h-screen overflow-hidden'
@@ -30,13 +34,13 @@ interface Props {
         {/* <Typography variant="h3" gutterBottom>
         SELECT 4 MOVIES
       </Typography> */}
-      <h1 className="text-3xl md:text-4xl grid place-items-center pt-10 pb-10">Your Favourite Movies</h1>
+      <h1 className="text-3xl md:text-4xl grid place-items-center pt-10 pb-8">Your Favourite Movies</h1>
         {/* <h1 className="text-4xl grid place-items-center pt-10 pb-10 text-blue-400 font-serif">SELECT ANY 5 MOVIES</h1> */}
           <section className="md:space-y-8 grid place-items-center">
-            <Grid userID= {1} title="Trending Now" movies={firstdata} />
-            <Grid userID= {1} title="Trending Now" movies={seconddata} />
+            <Grid userID= {userId} title="Trending Now" movies={firstdata} />
+            <Grid userID= {userId} title="Trending Now" movies={seconddata} />
           </section>
-          <section className='pt-3 grid place-items-center'>
+          <section className='pt-1 grid place-items-center'>
             <Button variant="outlined" onClick={()=> router.push('/')}>Add to My List</Button>
           </section>
           

@@ -5,11 +5,12 @@ import {
   signOut,
   User,
 } from 'firebase/auth'
-
+import axios from 'axios';
 import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { auth } from '../firebase'
-
+import { useRecoilState,useRecoilValue } from 'recoil'
+import {userIdState} from '../atoms/modalAtom.'
 interface IAuth {
   user: User | null
   signUp: (email: string, password: string) => Promise<void>
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [error, setError] = useState(null)
   const [initialLoading, setInitialLoading] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useRecoilState(userIdState);
 
   useEffect(
     () =>
@@ -64,23 +66,46 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
+      //   axios({
+      //     url: "http://localhost:5000/register",
+      //     method: 'POST',
+      //     data: [email,password]
+      // });
+      
+      // axios.get('http://localhost:5000/getuserIdsignup')
+      // .then(response =>{
+      //   let user=response.data['userID'][0]
+      //   setUserId(user)
+        
+      // })
         router.push('/mylist')
         setLoading(false)
       })
       .catch((error) => alert("Kindly recheck your email and password"))
       .finally(() => setLoading(false))
+
+    
   }
 
   const signIn = async (email: string, password: string) => {
     setLoading(true)
+    
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
-        router.push('/mylist')
+        // axios.get('http://localhost:5000/getuserIdsignin',{ params: { email: email } })
+        // .then(response =>{
+        //   let user=response.data['userID'][0]
+        //   setUserId(user)
+          
+        // })
+        router.push('/')
         setLoading(false)
       })
       .catch((error) => alert("Kindly recheck your email and password"))
       .finally(() => setLoading(false))
+
+    
   }
 
   const logout = async () => {

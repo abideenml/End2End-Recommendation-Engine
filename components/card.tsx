@@ -14,7 +14,7 @@ interface Props {
 }
 
 
-export default function ActionAreaCard({ userID,movie }: Props) {
+export default function ActionAreaCard({userID,movie }: Props) {
     const [bordcolor,setbordercolor] = useState('#001253')
     const [bordwidth,setborderwidth] = useState(3)
     return (
@@ -23,9 +23,9 @@ export default function ActionAreaCard({ userID,movie }: Props) {
             if(bordcolor=='#001253'){
                 setbordercolor('#81C6E8');
                 // axios({
-                //     url: "http://localhost:5000/data",
+                //     url: "http://localhost:5000/addtomylist",
                 //     method: 'POST',
-                //     data: [userID,movie.id,movie.title,movie.original_name]
+                //     data: [userID,movie.id]
                 //   });
             }
             else{

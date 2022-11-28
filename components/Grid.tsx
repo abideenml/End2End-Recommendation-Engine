@@ -21,7 +21,7 @@ function Grid({ userID,title, movies }: Props) {
         >
           {movies.map((movie) => (
             // <Mylist key={movie.id} movie={movie} />
-            <ActionAreaCard userID={userID} movie={movie} />
+            <ActionAreaCard key={movie.id} userID={userID} movie={movie} />
           ))}
         </div>
       </div>

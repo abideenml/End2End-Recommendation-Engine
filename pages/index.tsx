@@ -6,8 +6,12 @@ import Header from '../components/Header'
 import Modal from '../components/Modal'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
+import { useEffect } from 'react'
 import { Movie } from '../typings'
 import requests from '../utils/requests'
+import axios from 'axios'
+import { useRecoilState } from 'recoil'
+import {userIdState} from '../atoms/modalAtom.'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -33,9 +37,18 @@ const Home = ({
   
 }: Props) => {
   const { user, loading } = useAuth()
-  
   const showModal = useRecoilValue(modalState)
   const movie = useRecoilValue(movieState)
+  const [userId, setUserId] = useRecoilState(userIdState);
+  
+  // useEffect(() => {
+  //   axios.get('http://localhost:5000/getmylist',{ params: { userId: userId } })
+  //   .then(response =>{
+  //   let movielist=response.data
+  // })
+  // }, [])
+
+
 
   return (
     <div
@@ -61,7 +74,7 @@ const Home = ({
           <Row title="Action Thrillers" movies={actionMovies} />
           {/* My List
           {list.length > 0 && <Row title="My List" movies={list} />} */}
-
+          
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
           <Row title="New & Popular" movies={romanceMovies}/>

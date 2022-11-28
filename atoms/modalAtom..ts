@@ -11,3 +11,8 @@ export const movieState = atom<Movie | DocumentData | null>({
   key: 'movieState',
   default: null,
 })
+
+export const userIdState = atom({
+  key: 'userIdState',
+  default: 0,
+})

@@ -31,7 +31,7 @@ function Account() {
             Our client base is made up of individuals, ecommerce companies, fintech companies, academic 
             institutions, and others.</p>
         </div>
-        <div className='mt-1 grid grid-cols-1 gap-x-4 border px-4 py-4 md:grid-cols-4 md:border-x-0 md:border-0 md:border-b-0 md:px-0'>
+        <div className='mt-5 grid grid-cols-1 gap-x-4 border px-4 py-4 md:grid-cols-4 md:border-x-0 md:border-0 md:border-b-0 md:px-0'>
         <h4 className="text-lg text-[gray]">For Enterprise Inquiries Contact</h4>
         <p
             className="col-span-2 cursor-pointer text-blue-500 hover:underline"
@@ -39,7 +39,7 @@ function Account() {
             zain@kryptonite.com
         </p>
         </div>
-        <div className='grid place-items-center'>
+        <div className='mt-3 grid place-items-center'>
         <Button variant="outlined" onClick={logout}>Sign out</Button>
         </div>   
       </main>

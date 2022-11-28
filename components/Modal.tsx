@@ -69,7 +69,7 @@ function Modal() {
   }
 
   
-  // // Find all the movies in the user's list
+  // Find all the movies in the user's list
   // useEffect(() => {
   //   if (user) {
   //     return onSnapshot(
@@ -161,7 +161,7 @@ function Modal() {
               </button>
               
               <button className="modalButton">
-                <ThumbDownIcon className="h-6 w-6" />
+                <ThumbUpIcon className="h-6 w-6" />
               </button>
             </div>
             <button className="modalButton" onClick={() => setMuted(!muted)}>
