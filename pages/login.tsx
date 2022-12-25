@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import useAuth from '../hooks/useAuth'
 import myImg from "../assets/background.jpg";
 import Particle from "../components/particles"
+import { useRouter } from 'next/router'
 
 interface Inputs {
   email: string
@@ -13,6 +14,7 @@ interface Inputs {
 function Login() {
   const [login, setLogin] = useState(false)
   const { signIn, signUp } = useAuth()
+  const router = useRouter()
 
   const {
     register,
@@ -24,19 +26,20 @@ function Login() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (login) {
       await signIn(data.email, data.password)
-    } else {
-      await signUp(data.email, data.password)
-      
     } 
+    // else {
+    //   await signUp(data.email, data.password)
+      
+    // } 
   }
 
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black/5 md:items-center md:justify-center md:bg-transparent">
       <Head>
-        <title>Kryptonite</title>
+        <title>Login - Kryptonite</title>
         <link rel="icon" href="/log.png" />
       </Head>
-      <Particle/>
+      {/* <Particle/> */}
       {/* <Image
         src={myImg}
         layout="fill"
@@ -45,22 +48,22 @@ function Login() {
       /> */}
 
       <form
-        className="relative mt-24 space-y-8 rounded bg-black/50 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
+        className="relative mt-24 space-y-8 rounded bg-black/10 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-4xl font-semibold grid place-items-center">Sign In</h1>
+        <h1 className="text-4xl font-semibold grid place-items-center">Login</h1>
         <div className="space-y-4">
           <label className="inline-block w-full">
             <input
               type="email"
               placeholder="Email"
               className={`input ${
-                errors.email && 'border-b-2 border-orange-500'
+                'border-b-2 border-orange-500'
               }`}
               {...register('email', { required: true })}
             />
             {errors.email && (
-              <p className="p-1 text-[13px] font-light  text-orange-600">
+              <p className="p-1 text-[13px] font-light  text-red-600">
                 Please enter a valid email.
               </p>
             )}
@@ -71,11 +74,11 @@ function Login() {
               {...register('password', { required: true })}
               placeholder="Password"
               className={`input ${
-                errors.password && 'border-b-2 border-orange-600'
+                'border-b-2 border-orange-600'
               }`}
             />
             {errors.password && (
-              <p className="p-1 text-[13px] font-light  text-orange-600">
+              <p className="p-1 text-[13px] font-light  text-red-600">
                 Your password must contain between 4 and 60 characters.
               </p>
             )}
@@ -86,13 +89,13 @@ function Login() {
           onClick={() => setLogin(true)}
           type="submit"
         >
-          Sign In
+          Login
         </button>
         <div className="text-[gray]">
           New to Kryptonite?{' '}
           <button
             className="cursor-pointer text-white hover:underline"
-            onClick={() => setLogin(false)}
+            onClick={() => router.push('/signup')}
             type="submit"
           >
             Sign up now

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
+import axios from 'axios'
 import { modalState, movieState } from '../atoms/modalAtom.'
 import ReactPlayer from 'react-player/lazy'
 import { FaPlay } from 'react-icons/fa'
+import Rating from '@mui/material/Rating';
 import {
   CheckIcon,
   PlusIcon,
@@ -14,9 +16,10 @@ import {
 } from '@heroicons/react/outline'
 import { Element, Genre, Movie } from '../typings'
 import MuiModal from '@mui/material/Modal'
-
+import {userIdState} from '../atoms/modalAtom.'
 import useAuth from '../hooks/useAuth'
 import toast, { Toaster } from 'react-hot-toast'
+import React from 'react'
 
 function Modal() {
   const [movie, setMovie] = useRecoilState(movieState)
@@ -26,6 +29,7 @@ function Modal() {
   const [genres, setGenres] = useState<Genre[]>([])
   const [addedToList, setAddedToList] = useState(false)
   const { user } = useAuth()
+  const [userId, setUserId] = useRecoilState(userIdState);
 
   const toastStyle = {
     background: 'white',
@@ -63,11 +67,16 @@ function Modal() {
   }, [movie])
 
   const handleClose = () => {
+    axios({
+      url: "http://localhost:5000/ratingimplicit",
+      method: 'POST',
+      data: [userId,movie?.id]
+    })
     setShowModal(false)
     setMovie(null)
     toast.dismiss()
   }
-
+  const [value, setValue] = React.useState<number | null>(1);
   
   // Find all the movies in the user's list
   // useEffect(() => {
@@ -88,36 +97,13 @@ function Modal() {
   //   [movies]
   // )
 
-  // const handleList = async () => {
-  //   if (addedToList) {
-  //     await deleteDoc(
-  //       doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!)
-  //     )
-
-  //     toast(
-  //       `${movie?.title || movie?.original_name} has been removed from My List`,
-  //       {
-  //         duration: 8000,
-  //         style: toastStyle,
-  //       }
-  //     )
-  //   } else {
-  //     await setDoc(
-  //       doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!),
-  //       {
-  //         ...movie,
-  //       }
-  //     )
-
-  //     toast(
-  //       `${movie?.title || movie?.original_name} has been added to My List.`,
-  //       {
-  //         duration: 8000,
-  //         style: toastStyle,
-  //       }
-  //     )
-  //   }
-  // }
+  const handleList = () => {
+    axios({
+      url: "http://localhost:5000/addtomylist",
+      method: 'POST',
+      data: [userId,movie?.id]
+    })
+  }
 
   console.log(addedToList)
 
@@ -151,18 +137,14 @@ function Modal() {
                 <FaPlay className="h-7 w-7 text-black" />
                 Play
               </button>
-              <button className="modalButton">   
-              {/* onClick={handleList} */}
-                {addedToList ? (
-                  <CheckIcon className="h-7 w-7" />
-                ) : (
-                  <PlusIcon className="h-7 w-7" />
-                )}
+              <button className="modalButton" onClick={handleList}>   
+                <PlusIcon className="h-7 w-7" />
               </button>
               
-              <button className="modalButton">
+              {/* <button className="modalButton">
                 <ThumbUpIcon className="h-6 w-6" />
-              </button>
+              </button> */}
+              
             </div>
             <button className="modalButton" onClick={() => setMuted(!muted)}>
               {muted ? (
@@ -176,15 +158,27 @@ function Modal() {
         <div className="flex space-x-16 rounded-b-md bg-[#181818] px-10 py-8">
           <div className="space-y-6 text-lg">
             <div className="flex items-center space-x-2 text-sm">
-              <p className="font-semibold text-green-400">
+              {/* <p className="font-semibold text-green-400">
                 {movie!.vote_average * 10}% Match
-              </p>
+              </p> */}
               <p className="font-light">
                 {movie?.release_date || movie?.first_air_date}
               </p>
               <div className="flex h-4 items-center justify-center rounded border border-white/40 px-1.5 text-xs">
                 HD
               </div>
+              <Rating
+                name="simple-controlled"
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                  axios({
+                    url: "http://localhost:5000/ratingexplicit",
+                    method: 'POST',
+                    data: [userId,movie?.id,newValue]
+                  });
+                }}
+              />
             </div>
             <div className="flex flex-col gap-x-10 gap-y-4 font-light md:flex-row">
               <p className="w-5/6">{movie?.overview}</p>

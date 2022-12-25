@@ -6,12 +6,15 @@ import Header from '../components/Header'
 import Modal from '../components/Modal'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Movie } from '../typings'
 import requests from '../utils/requests'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
-import {userIdState} from '../atoms/modalAtom.'
+import {userIdState,mylistState,TrendinggState,actionState,romanceState,documentryState,horrorState,comedyState,contentrecommendationsState,implicitcollabreState,explicitcollabreState,implicitneuralcollabreState,explicitneuralcollabreState} from '../atoms/modalAtom.'
+import Button from '@mui/material/Button';
+import { useRouter } from 'next/router'
+
 
 interface Props {
   netflixOriginals: Movie[]
@@ -22,8 +25,10 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
-  
+  mylist: Movie[]
+  userId: number
 }
+
 
 const Home = ({
   netflixOriginals,
@@ -34,22 +39,46 @@ const Home = ({
   romanceMovies,
   topRated,
   trendingNow,
-  
 }: Props) => {
   const { user, loading } = useAuth()
   const showModal = useRecoilValue(modalState)
   const movie = useRecoilValue(movieState)
-  const [userId, setUserId] = useRecoilState(userIdState);
+  // const action = useRecoilValue(actionState)
+  // const Trendingg = useRecoilValue(TrendinggState)
+  // const romance = useRecoilValue(romanceState)
+  // const documentry = useRecoilValue(documentryState)
+  // const horror = useRecoilValue(horrorState)
+  // const comedy = useRecoilValue(comedyState)
+  const router = useRouter()
+  const userId = useRecoilValue(userIdState);
+  const [mylist, setmylist] = useRecoilState(mylistState);
+  const [contentre, setcontentre] = useRecoilState(contentrecommendationsState);
+  const [implicitcollabre, setimplicitcollabre] = useRecoilState(implicitcollabreState);
+  const [explicitcollabre, setexplicitcollabre] = useRecoilState(explicitcollabreState);
+  const [implicitneuralcollabre, setimplicitneuralcollabre] = useRecoilState(implicitneuralcollabreState);
+  const [explicitneuralcollabre, setexplicitneuralcollabre] = useRecoilState(explicitneuralcollabreState);
+  useEffect(() =>{
+    if (contentre.length==0){
+      axios.get('http://localhost:5000/getmylist',{ params: { userId: userId } })
+      .then(response =>{
+        let movielist=response.data
+        const mylist=movielist['movieIDs']
+        setmylist(mylist)
+      })
+      axios.get('http://localhost:5000/getcontentre',{ params: { userId: userId } })
+      .then(response =>{
+        let contentlist=response.data
+        const recommendations=contentlist['content']
+        setcontentre(recommendations)
+        setimplicitcollabre(contentlist['implicitcollaborative'])
+        setexplicitcollabre(contentlist['explicitcollaborative'])
+        setimplicitneuralcollabre(contentlist['implicitneuralcollaborative'])
+        setexplicitneuralcollabre(contentlist['explicitneuralcollaborative'])
+      })
+    }
   
-  // useEffect(() => {
-  //   axios.get('http://localhost:5000/getmylist',{ params: { userId: userId } })
-  //   .then(response =>{
-  //   let movielist=response.data
-  // })
-  // }, [])
-
-
-
+  },[user])
+  
   return (
     <div
       className={`relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh] ${
@@ -65,21 +94,20 @@ const Home = ({
 
       <Header/>
 
-      <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16 ">
+      <main className="relative pl-4 pb-12 lg:space-y-24 lg:pl-16 ">
         <Banner netflixOriginals={netflixOriginals} />
 
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
-          <Row title="Top Rated" movies={topRated} />
-          <Row title="Action Thrillers" movies={actionMovies} />
-          {/* My List
-          {list.length > 0 && <Row title="My List" movies={list} />} */}
-          
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
+          <Row title="Action Thrillers" movies={actionMovies} />
           <Row title="New & Popular" movies={romanceMovies}/>
           <Row title="Documentaries" movies={documentaries} />
         </section>
+        <div className='grid place-items-center'>
+        <Button variant="outlined" onClick={()=> router.push('/recommendations')}>Surprise Me !!!</Button>
+        </div> 
       </main>
       {showModal && <Modal />}
     </div>
@@ -89,12 +117,10 @@ const Home = ({
 export default Home
 
 export const getServerSideProps = async () => {
-  
 
   const [
     netflixOriginals,
     trendingNow,
-    topRated,
     actionMovies,
     comedyMovies,
     horrorMovies,
@@ -103,7 +129,6 @@ export const getServerSideProps = async () => {
   ] = await Promise.all([
     fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
     fetch(requests.fetchTrending).then((res) => res.json()),
-    fetch(requests.fetchTopRated).then((res) => res.json()),
     fetch(requests.fetchActionMovies).then((res) => res.json()),
     fetch(requests.fetchComedyMovies).then((res) => res.json()),
     fetch(requests.fetchHorrorMovies).then((res) => res.json()),
@@ -115,13 +140,11 @@ export const getServerSideProps = async () => {
     props: {
       netflixOriginals: netflixOriginals.results,
       trendingNow: trendingNow.results,
-      topRated: topRated.results,
       actionMovies: actionMovies.results,
       comedyMovies: comedyMovies.results,
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
-      
     },
   }
 }

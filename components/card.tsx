@@ -22,11 +22,11 @@ export default function ActionAreaCard({userID,movie }: Props) {
         onClick={() => {
             if(bordcolor=='#001253'){
                 setbordercolor('#81C6E8');
-                // axios({
-                //     url: "http://localhost:5000/addtomylist",
-                //     method: 'POST',
-                //     data: [userID,movie.id]
-                //   });
+                axios({
+                    url: "http://localhost:5000/addtomylist",
+                    method: 'POST',
+                    data: [userID,movie.id]
+                  });
             }
             else{
                 setbordercolor('#001253')

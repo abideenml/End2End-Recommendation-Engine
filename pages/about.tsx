@@ -4,10 +4,22 @@ import Link from 'next/link'
 import { useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import Button from '@mui/material/Button'
+import { useRecoilState,useRecoilValue } from 'recoil'
+import {mylistState} from '../atoms/modalAtom.'
+import {movieState} from '../atoms/modalAtom.'
+import Row from '../components/Row'
+import { Movie } from '../typings'
+
+// interface Props {
+//   mylist: Movie[]
+//   userId: number
+// }
 
 function Account() {
   const { user, logout, loading } = useAuth()
-
+  const [mylist, setmylist] = useRecoilState(mylistState);
+  const movie = useRecoilValue(movieState)
+  console.log(mylist)
 
   if (loading) return null
 
@@ -41,7 +53,7 @@ function Account() {
         </div>
         <div className='mt-3 grid place-items-center'>
         <Button variant="outlined" onClick={logout}>Sign out</Button>
-        </div>   
+        </div> 
       </main>
     </div>
   )

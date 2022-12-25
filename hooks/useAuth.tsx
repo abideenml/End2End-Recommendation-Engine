@@ -13,7 +13,7 @@ import { useRecoilState,useRecoilValue } from 'recoil'
 import {userIdState} from '../atoms/modalAtom.'
 interface IAuth {
   user: User | null
-  signUp: (email: string, password: string) => Promise<void>
+  signUp: (name:string, age: string, email: string, password: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   error: string | null
@@ -60,24 +60,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     [auth]
   )
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (name: string,age: string,email: string, password: string) => {
     setLoading(true)
 
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
-      //   axios({
-      //     url: "http://localhost:5000/register",
-      //     method: 'POST',
-      //     data: [email,password]
-      // });
+        axios({
+          url: "http://localhost:5000/register",
+          method: 'POST',
+          data: [name,age,email,password]
+      });
       
-      // axios.get('http://localhost:5000/getuserIdsignup')
-      // .then(response =>{
-      //   let user=response.data['userID'][0]
-      //   setUserId(user)
+      axios.get('http://localhost:5000/getuserIdsignup')
+      .then(response =>{
+        let user=response.data['userID']
+        setUserId(user[0]+1)
+        console.log(user[0]+1)
         
-      // })
+      })
         router.push('/mylist')
         setLoading(false)
       })
@@ -93,12 +94,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
-        // axios.get('http://localhost:5000/getuserIdsignin',{ params: { email: email } })
-        // .then(response =>{
-        //   let user=response.data['userID'][0]
-        //   setUserId(user)
+        axios.get('http://localhost:5000/getuserIdsignin',{ params: { email: email } })
+        .then(response =>{
+          let user=response.data['userID']
+          setUserId(user[0])
+          console.log(user)
           
-        // })
+        })
         router.push('/')
         setLoading(false)
       })
