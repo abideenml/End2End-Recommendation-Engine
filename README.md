@@ -1,5 +1,15 @@
 ## End to End Recommendation System
-This repo contains a Recommendation system built with NextJS, Flask, MySQL, TailwindCSS and AWS. Recommendation techniques that are used are:
+This repo contains a Recommendation system built with NextJS, Flask, MySQL, TailwindCSS and AWS. 
+
+
+
+
+https://github.com/abideenml/End2End-Recommendation-Engine/assets/89645252/eeba5105-2355-4b7f-a297-f0e6ec256cf7
+
+
+
+
+Recommendation techniques that are used are:
 
 1) :link: [Content based Recommender](https://www.researchgate.net/publication/236895069_Content-Based_Recommendation_Systems) <br/>
 2) :link: [Implicit and Explicit Collaborative](https://www.researchgate.net/publication/200121027_Collaborative_Filtering_Recommender_Systems) <br/>
