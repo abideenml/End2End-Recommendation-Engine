@@ -59,17 +59,18 @@ const Home = ({
   const [explicitneuralcollabre, setexplicitneuralcollabre] = useRecoilState(explicitneuralcollabreState);
   useEffect(() =>{
     if (contentre.length==0){
-      axios.get('http://localhost:5000/getmylist',{ params: { userId: userId } })
-      .then(response =>{
-        let movielist=response.data
-        const mylist=movielist['movieIDs']
-        setmylist(mylist)
-      })
+      // axios.get('http://localhost:5000/getmylist',{ params: { userId: userId } })
+      // .then(response =>{
+      //   let movielist=response.data
+      //   const mylist=movielist['movieIDs']
+      //   setmylist(mylist)
+      // })
       axios.get('http://localhost:5000/getcontentre',{ params: { userId: userId } })
       .then(response =>{
         let contentlist=response.data
         const recommendations=contentlist['content']
         setcontentre(recommendations)
+        setmylist(contentlist['mylist'])
         setimplicitcollabre(contentlist['implicitcollaborative'])
         setexplicitcollabre(contentlist['explicitcollaborative'])
         setimplicitneuralcollabre(contentlist['implicitneuralcollaborative'])
