@@ -23,6 +23,7 @@ Recommendation techniques that are used are:
   * [MySQL Database](#mysql-database)
   * [Connect with me](#connect-with-me)
 
+ 
 ## What are Recommendation systems?
 Recommendation systems are algorithms and techniques designed to suggest or recommend items, products, or content to users based on their preferences, behavior, or past interactions. These systems analyze user data, such as purchase history, ratings, or browsing patterns, and use it to generate personalized recommendations. The goal is to provide users with relevant and tailored suggestions to enhance their experience and help them discover new items of interest. Recommendation systems are commonly used in various domains, including e-commerce, streaming platforms, social media, and online content platforms, to assist users in finding products, movies, music, articles, or other items that match their individual preferences.
 
