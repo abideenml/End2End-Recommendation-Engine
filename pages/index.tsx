@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/router'
 
 
+
 interface Props {
   netflixOriginals: Movie[]
   trendingNow: Movie[]
