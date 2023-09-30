@@ -36,6 +36,7 @@ def save_model(model: torch.nn.Module,
     torch.save(obj=model.state_dict(),
              f=model_save_path)
 
+
 def generate_train_content_data():
     sql = '''SELECT * FROM train_content_data'''
     cursor.execute(sql)
