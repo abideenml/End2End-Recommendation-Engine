@@ -13,6 +13,7 @@ import torch
 from pathlib import Path
 from tqdm.notebook import tqdm
 
+
 db = pymysql.connect(host='localhost', user='root', password='iamzain')
 cursor = db.cursor()
 sql = '''use kryptonite'''
