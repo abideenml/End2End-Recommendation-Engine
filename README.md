@@ -8,7 +8,7 @@ https://github.com/abideenml/End2End-Recommendation-Engine/assets/89645252/eeba5
 
 
 
-
+ 
 Recommendation techniques that are used are:
 
 1) :link: [Content based Recommender](https://www.researchgate.net/publication/236895069_Content-Based_Recommendation_Systems) <br/>
