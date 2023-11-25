@@ -1,4 +1,6 @@
 import ast
+from dotenv import load_dotenv
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pymysql
@@ -9,17 +11,14 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
-import numpy as np
 import random
-import torch
-from pathlib import Path
+load_dotenv()
 
-db = pymysql.connect(host='localhost', user='root', password='iamzain')
+db = pymysql.connect(host='localhost', user='root', password='iamzain1')
 cursor = db.cursor()
 sql = '''use kryptonite'''
 cursor.execute(sql)
 API_key= '69a4a424b71c68ab389328ba828f71f2'
-
 
 
 def recommend_content(id,similarity,tmdblist):
@@ -174,6 +173,7 @@ def register():
 def getuserIdsignin():
     args = request.args
     email = args['email']
+    print(email)
     getuserIdqueryfromemail="select userID from users WHERE email= '%s' "% (email)
     cursor.execute(getuserIdqueryfromemail)
     userID=cursor.fetchone()
