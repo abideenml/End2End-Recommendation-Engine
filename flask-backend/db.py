@@ -1,7 +1,3 @@
-from dotenv import load_dotenv
-
-# Load environment variables from the .env file
-load_dotenv()
 import os
 import pymysql
 
@@ -16,7 +12,7 @@ try:
 
     # cursor.execute("CREATE TABLE `genome_scores` (`movieID` INT NOT NULL,`tagID` INT NOT NULL, `relevance` float(20) NOT NULL);")
     cursor.execute("CREATE TABLE `genome_tags` (`tagID` INT NOT NULL,`tag` VARCHAR(1000) NOT NULL,PRIMARY KEY (`tagID`));")
-    cursor.execute("CREATE TABLE`rating_explicit` (`userID` INT NOT NULL,`tmdbID` INT NOT NULL,`rating` FLOAT NOT NULL,`timestamp` VARCHAR(50) NULL);")
+    cursor.execute("CREATE TABLE `rating_explicit` (`userID` INT NOT NULL,`tmdbID` INT NOT NULL,`rating` FLOAT NOT NULL,`timestamp` VARCHAR(50) NULL);")
     cursor.execute("CREATE TABLE `ml_youtube` (`youtubeID` VARCHAR(100) NOT NULL,`movieID` INT NOT NULL);")
     cursor.execute("CREATE TABLE `movies` (`movieID` INT NOT NULL AUTO_INCREMENT,`title` VARCHAR(200) NOT NULL,`release_year` VARCHAR(20),`overview` VARCHAR(2000),PRIMARY KEY (`movieID`));")
     cursor.execute("CREATE TABLE `movie_imdb_tmdb` (`movieID` INT NOT NULL,`imdbID` INT NULL,`tmdbID` INT NOT NULL UNIQUE);")

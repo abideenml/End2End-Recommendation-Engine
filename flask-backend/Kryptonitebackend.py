@@ -1,5 +1,4 @@
 import ast
-from dotenv import load_dotenv
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -12,13 +11,19 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 import random
-load_dotenv()
+from . import config
 
-db = pymysql.connect(host='localhost', user='root', password='iamzain1')
+DATABASE_USERNAME = config.DATABASE_USERNAME
+DATABASE_PASSWORD = config.DATABASE_PASSWORD
+DATABASE_HOST = config.DATABASE_HOST
+DATABASE_NAME = config.DATABASE_NAME
+TMDB_API_KEY = config.TMDB_API_KEY
+
+db = pymysql.connect(host=DATABASE_HOST, user=DATABASE_USERNAME, password=DATABASE_PASSWORD)
 cursor = db.cursor()
 sql = '''use kryptonite'''
 cursor.execute(sql)
-API_key= '69a4a424b71c68ab389328ba828f71f2'
+API_key = TMDB_API_KEY
 
 
 def recommend_content(id,similarity,tmdblist):
