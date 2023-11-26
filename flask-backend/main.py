@@ -1,5 +1,4 @@
 import pymysql
-import requests,json
 global db,cursor,API_key
 import pickle
 from nltk.stem.porter import PorterStemmer
@@ -354,8 +353,8 @@ def generate_train_neuralcollaborative_explicit_data():
     torch.save(model, 'ncf_explicit.pth')
 
 
-# generate_train_content_data()
+generate_train_content_data()
 generate_train_neuralcollaborative_explicit_data()
 generate_train_neuralcollaborative_implicit_data()
-# generate_train_collaborative_explicit_data()
-# generate_train_collaborative_implicit_data()
+generate_train_collaborative_explicit_data()
+generate_train_collaborative_implicit_data()
